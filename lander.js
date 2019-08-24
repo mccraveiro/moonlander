@@ -17,6 +17,7 @@ class Lander {
     this.altitude = canvas.height
     this.landed = false
     this.crashed = false
+    this.fuel = 300
   }
 
   updateAltitude () {
@@ -64,8 +65,13 @@ class Lander {
       this.rotation += 1
     }
 
-    if (window.keyboard[38]) {
+    if (window.keyboard[38] && this.fuel > 0) {
       this.thrusterOn = 1
+      this.fuel -= elapsedTime * 10
+
+      if (this.fuel < 0) {
+        this.fuel = 0
+      }
     } else {
       this.thrusterOn = 0
     }
@@ -124,6 +130,7 @@ class Lander {
     this.context.fillText(`HORIZONTAL SPEED: ${this.xSpeed.toFixed(0)}`, this.canvas.width - 200, 50)
     this.context.fillText(`VERTICAL SPEED: ${this.ySpeed.toFixed(0)}`, this.canvas.width - 200, 65)
     this.context.fillText(`ROTATION: ${(this.rotation % 360).toFixed(0)}`, this.canvas.width - 200, 80)
+    this.context.fillText(`FUEL: ${(this.fuel).toFixed(0)}`, this.canvas.width - 200, 95)
 
     if (this.crashed) {
       this.context.font = '20px monospace'
